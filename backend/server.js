@@ -6,10 +6,10 @@ import { GoogleAuth } from 'google-auth-library';
 const app = express();
 const port = process.env.PORT || 4000;
 
-const PROJECT_ID = process.env.VERTEX_PROJECT_ID;
-const LOCATION = process.env.VERTEX_LOCATION;
-const MODEL = process.env.VERTEX_MODEL;
-const DEFAULT_ENDPOINT = PROJECT_ID && LOCATION && MODEL
+const PROJECT_ID = process.env.VERTEX_PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT;
+const LOCATION = process.env.VERTEX_LOCATION || 'us-central1';
+const MODEL = process.env.VERTEX_MODEL || 'gemini-2.5-flash-image-preview';
+const DEFAULT_ENDPOINT = PROJECT_ID
   ? `https://${LOCATION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL}:predict`
   : undefined;
 const ENDPOINT = process.env.VERTEX_ENDPOINT || DEFAULT_ENDPOINT;
