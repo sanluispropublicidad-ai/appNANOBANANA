@@ -1,54 +1,64 @@
-# APP NANOBANANA
+# Nano Banana
 
-Aplicación full-stack para generación y edición de imágenes con Vertex AI (modelo `gemini-2.5-flash-image-preview`). El proyecto se construirá en cinco fases siguiendo la guía del repositorio.
+Bienvenido al proyecto **Nano Banana**. Este repositorio contiene el frontend en React + TypeScript + Vite + Tailwind CSS y el backend en Node.js + Express.
 
-## Estructura del proyecto
+## Requisitos previos
+- Node.js 18 o superior
+- npm 9 o superior
+- Docker (opcional, solo si quieres usar contenedores)
 
-```
-APP-NANOBANANA/
-├── frontend/           # Aplicación React + Vite + Tailwind CSS
-│   ├── src/components/
-│   ├── src/pages/
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── vite.config.ts
-├── backend/            # API Node.js + Express
-│   ├── routes/
-│   ├── package.json
-│   └── server.js
-├── docker-compose.yml
-├── .env.example
-└── README.md
-```
-
-## Dependencias principales previstas
-
-- **Frontend:** React, TypeScript, Vite, Tailwind CSS.
-- **Backend:** Node.js, Express, utilidades para Vertex AI y manejo de archivos.
-- **AI:** Google Vertex AI (`gemini-2.5-flash-image-preview`).
-
-## Configuración inicial
-
-1. Duplica `.env.example` como `.env` y ajusta los valores necesarios.
-2. Proporciona un archivo de credenciales de servicio de Google Cloud y apunta `GOOGLE_APPLICATION_CREDENTIALS` al path correspondiente.
-3. Instala dependencias cuando se definan en cada paquete (`npm install` en `frontend/` y `backend/`).
-
-## Ejecución con Docker Compose
-
-El archivo `docker-compose.yml` permite levantar backend y frontend de forma coordinada. Ejecuta:
-
+## Clonar el repositorio
 ```bash
-docker compose up --build
+git clone https://github.com/sanluispropublicidad-ai/APP-NANOBANANA.git
+cd APP-NANOBANANA
 ```
 
-El frontend se servirá en `http://localhost:5173` y el backend en `http://localhost:4000` (configurable vía variables de entorno).
+## Configurar variables de entorno
+1. Copia el archivo `.env.example` a `.env`.
+2. Completa los valores:
+   - `PROJECT_ID`
+   - `LOCATION`
+   - `MODEL_NAME`
+   - `GOOGLE_APPLICATION_CREDENTIALS` (ruta al archivo JSON del Service Account, **no** lo subas al repositorio). Si vas a usar Docker, coloca el JSON dentro de `backend/` (está ignorado por Git) y apunta la variable a `/app/<nombre-del-archivo>.json`.
 
-## Roadmap de desarrollo
+## Instalar dependencias (modo local)
+### Backend
+```bash
+cd backend
+npm install
+```
 
-1. **infra-base** (fase actual): estructura inicial, configuración de entorno y tooling.
-2. **backend-generate:** endpoint `/api/generate` para generación de imágenes desde prompt.
-3. **backend-edit:** rutas de edición, mezcla y operaciones locales sobre imágenes.
-4. **frontend-base:** UI fundamental de generación y visualización.
-5. **frontend-advanced:** características avanzadas, galería e historial.
+### Frontend
+```bash
+cd frontend
+npm install
+```
 
-Cada fase se implementará en ramas independientes con su respectivo Pull Request antes de fusionar en `main`.
+## Ejecutar la aplicación en desarrollo (modo local)
+En dos terminales separadas:
+
+### Backend
+```bash
+cd backend
+npm run dev
+```
+
+### Frontend
+```bash
+cd frontend
+npm run dev
+```
+
+El frontend se abrirá en `http://localhost:5173` y el backend escuchará en `http://localhost:3001`.
+
+## Ejecutar con Docker Compose (opcional)
+1. Asegúrate de tener Docker y Docker Compose instalados.
+2. Copia `.env.example` a `.env` y configura las variables (recuerda que `GOOGLE_APPLICATION_CREDENTIALS` debe apuntar al archivo dentro del contenedor, por ejemplo `/app/service-account.json`).
+3. Si usas credenciales locales, colócalas dentro de `backend/` y asegúrate de que el nombre coincida con la ruta indicada en `.env`.
+4. En la raíz del proyecto ejecuta:
+   ```bash
+   docker-compose up --build
+   ```
+5. El frontend quedará disponible en `http://localhost:3000` y el backend en `http://localhost:3001`.
+
+Para detener los contenedores utiliza `Ctrl + C` y luego `docker-compose down` si deseas limpiar los servicios.
